@@ -87,7 +87,7 @@ function death() {
 		DEATH_SCREEN_ELEMENT.innerHTML = MESSAGE_WITH_HS;
 		DEATH_SCREEN_ELEMENT.classList.remove("hide");
 	} else {
-		DEATH_SCREEN_ELEMENT.innerHTML = MESSAGE_WITH_HS;
+		DEATH_SCREEN_ELEMENT.innerHTML = MESSAGE_WITHOUT_HS;
 		DEATH_SCREEN_ELEMENT.classList.remove("hide");
 	}
 }
