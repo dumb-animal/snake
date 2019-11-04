@@ -26,7 +26,7 @@ html {
           align-items: center;
 }
 
-body #bar {
+body #top-bar {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -38,7 +38,7 @@ body #bar {
   margin-bottom: 10px;
 }
 
-body #bar .scores {
+body #top-bar .scores {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

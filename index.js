@@ -9,14 +9,16 @@ const HIGH_SCORE_ELEMENT = document.getElementById("high-score");
 const START_SCREEN_ELEMENT = document.getElementById("start-screen");
 const PAUSE_SCREEN_ELEMENT = document.getElementById("pause-screen");
 
-let score = 0;
 let highScore = 0;
-let direction = "down";
-let newStep = true;
-let hasFood = false;
-let isPause = true;
-let snake = [[9, 10], [9, 9], [9, 8]];
-let food = [];
+
+let isNewHighScore;
+let score;
+let direction;
+let newStep;
+let food;
+let hasFood;
+let isPause;
+let snake;
 
 function drawGrid() {
 	stroke(200);
@@ -84,6 +86,7 @@ function eat() {
 	food = [];
 	hasFood = false;
 	score++;
+	if (score > highScore) highScore = score;
 }
 
 function move() {
@@ -97,28 +100,41 @@ function move() {
 	snake = [head, ...snake];
 }
 
-function showScore(){
-    SCORE_ELEMENT.innerText = score;
-    HIGH_SCORE_ELEMENT.innerText = highScore;
+function showScore() {
+	SCORE_ELEMENT.innerText = score;
+	HIGH_SCORE_ELEMENT.innerText = highScore;
+}
+
+function start() {
+	score = 0;
+	direction = "down";
+	newStep = true;
+	hasFood = false;
+	isPause = true;
+	isNewHighScore = false;
+	snake = [[9, 10], [9, 9], [9, 8]];
+	food = [];
+	background(255);
+	drawGrid();
+	drawSnake();
+	showScore();
+	noLoop();
 }
 
 function setup() {
 	createCanvas(SIZE, SIZE);
-	background(255);
-	drawGrid();
-	drawSnake();
-	noLoop();
+	start();
 }
 
 function draw() {
 	if (frameCount % 10 === 0) {
 		if (!hasFood) addFood();
-        background(255);
+		background(255);
 		drawGrid();
 		drawSnake();
 		drawFood();
-        move();
-        showScore();
+		move();
+		showScore();
 		collision();
 		newStep = true;
 	}
@@ -161,5 +177,8 @@ function keyPressed() {
 			noLoop();
 			isPause = true;
 		}
+	}
+	if (keyCode === 82) {
+		start();
 	}
 }
