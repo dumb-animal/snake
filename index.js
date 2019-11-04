@@ -8,6 +8,11 @@ const SCORE_ELEMENT = document.getElementById("score");
 const HIGH_SCORE_ELEMENT = document.getElementById("high-score");
 const START_SCREEN_ELEMENT = document.getElementById("start-screen");
 const PAUSE_SCREEN_ELEMENT = document.getElementById("pause-screen");
+const DEATH_SCREEN_ELEMENT = document.getElementById("death-screen");
+const MESSAGE_WITH_HS =
+	"<div>YOU DEAD!</div><div>you set a new high score!</div><div>press R to try again</div>";
+const MESSAGE_WITHOUT_HS =
+	"<div>YOU DEAD!</div><div>press R to try again</div>";
 
 let highScore = 0;
 
@@ -78,6 +83,26 @@ function collision() {
 
 function death() {
 	noLoop();
+	if (isNewHighScore) {
+		DEATH_SCREEN_ELEMENT.innerHTML = MESSAGE_WITH_HS;
+		DEATH_SCREEN_ELEMENT.classList.remove("hide");
+	} else {
+		DEATH_SCREEN_ELEMENT.innerHTML = MESSAGE_WITH_HS;
+		DEATH_SCREEN_ELEMENT.classList.remove("hide");
+	}
+}
+
+function pause() {
+	if (isPause) {
+		loop();
+		isPause = false;
+		START_SCREEN_ELEMENT.classList.add("hide");
+		PAUSE_SCREEN_ELEMENT.classList.add("hide");
+	} else {
+		noLoop();
+		isPause = true;
+		PAUSE_SCREEN_ELEMENT.classList.remove("hide");
+	}
 }
 
 function eat() {
@@ -86,7 +111,10 @@ function eat() {
 	food = [];
 	hasFood = false;
 	score++;
-	if (score > highScore) highScore = score;
+	if (score > highScore) {
+		highScore = score;
+		isNewHighScore = true;
+	}
 }
 
 function move() {
@@ -106,6 +134,8 @@ function showScore() {
 }
 
 function start() {
+	DEATH_SCREEN_ELEMENT.classList.add("hide");
+	START_SCREEN_ELEMENT.classList.remove("hide");
 	score = 0;
 	direction = "down";
 	newStep = true;
@@ -116,7 +146,6 @@ function start() {
 	food = [];
 	background(255);
 	drawGrid();
-	drawSnake();
 	showScore();
 	noLoop();
 }
@@ -170,13 +199,7 @@ function keyPressed() {
 		}
 	}
 	if (keyCode === 32) {
-		if (isPause) {
-			loop();
-			isPause = false;
-		} else {
-			noLoop();
-			isPause = true;
-		}
+		pause();
 	}
 	if (keyCode === 82) {
 		start();

@@ -26,6 +26,10 @@ html {
           align-items: center;
 }
 
+body {
+  position: relative;
+}
+
 body #top-bar {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -42,5 +46,42 @@ body #top-bar .scores {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+body .screen {
+  position: absolute;
+  width: 250px;
+  height: 75px;
+  background: #000;
+  bottom: 50%;
+  right: 50%;
+  -webkit-transform: translate(50%, 50%);
+          transform: translate(50%, 50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 1;
+}
+
+body #death-screen {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100px;
+}
+
+body #death-screen div:nth-child(1) {
+  text-align: center;
+}
+
+body .hide {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */
