@@ -9,21 +9,48 @@ const HIGH_SCORE_ELEMENT = document.getElementById("high-score");
 const START_SCREEN_ELEMENT = document.getElementById("start-screen");
 const PAUSE_SCREEN_ELEMENT = document.getElementById("pause-screen");
 const DEATH_SCREEN_ELEMENT = document.getElementById("death-screen");
-const MESSAGE_WITH_HS =
-	"<div>YOU DEAD!</div><div>you set a new high score!</div><div>press R to try again</div>";
-const MESSAGE_WITHOUT_HS =
-	"<div>YOU DEAD!</div><div>press R to try again</div>";
+const MESSAGE_WITH_HS = `
+	<div>YOU DEAD!</div>
+	<div>you set a new high score!</div>
+	<div>press R to try again</div>`;
+const MESSAGE_WITHOUT_HS = `
+	<div>YOU DEAD!</div>
+	<div>press R to try again</div>`;
 
 let highScore = 0;
 
+let isEasy;
+let isPause;
+let isDead;
 let isNewHighScore;
+let hasFood;
+
 let score;
 let direction;
-let newStep;
 let food;
-let hasFood;
-let isPause;
 let snake;
+let speed;
+
+function setDifficulty(value) {
+	isEasy = value;
+
+	let btns = START_SCREEN_ELEMENT.getElementsByTagName("button");
+	let descr = START_SCREEN_ELEMENT.getElementsByClassName("description")[0];
+
+	if (isEasy) {
+		btns[0].classList.add("selected");
+		btns[1].classList.remove("selected");
+		descr.innerHTML = `
+			<li> you can walk through walls</li>
+			<li> speed doesn't increase</li>`;
+	} else {
+		btns[0].classList.remove("selected");
+		btns[1].classList.add("selected");
+		descr.innerHTML = `
+			<li>you can't walk through walls</li>
+			<li>speed increase</li>`;
+	}
+}
 
 function drawGrid() {
 	stroke(200);
@@ -34,7 +61,7 @@ function drawGrid() {
 }
 
 function drawSnake() {
-	fill(50);
+	fill("#222");
 	for (let i = 0; i < snake.length; i++) {
 		body = snake[i];
 		const x = body[0] * CELL_SIZE;
@@ -82,6 +109,7 @@ function collision() {
 }
 
 function death() {
+	isDead = true;
 	noLoop();
 	if (isNewHighScore) {
 		DEATH_SCREEN_ELEMENT.innerHTML = MESSAGE_WITH_HS;
@@ -99,9 +127,11 @@ function pause() {
 		START_SCREEN_ELEMENT.classList.add("hide");
 		PAUSE_SCREEN_ELEMENT.classList.add("hide");
 	} else {
-		noLoop();
-		isPause = true;
-		PAUSE_SCREEN_ELEMENT.classList.remove("hide");
+		if (!isDead) {
+			noLoop();
+			isPause = true;
+			PAUSE_SCREEN_ELEMENT.classList.remove("hide");
+		}
 	}
 }
 
@@ -134,20 +164,24 @@ function showScore() {
 }
 
 function start() {
+	PAUSE_SCREEN_ELEMENT.classList.add("hide");
 	DEATH_SCREEN_ELEMENT.classList.add("hide");
 	START_SCREEN_ELEMENT.classList.remove("hide");
 	score = 0;
+	speed = 20;
 	direction = "down";
-	newStep = true;
+	isDead = false;
 	hasFood = false;
 	isPause = true;
+	isEasy = false;
 	isNewHighScore = false;
 	snake = [[9, 10], [9, 9], [9, 8]];
 	food = [];
 	background(255);
 	drawGrid();
-	showScore();
+	// showScore();
 	noLoop();
+	setDifficulty(isEasy);
 }
 
 function setup() {
@@ -156,52 +190,53 @@ function setup() {
 }
 
 function draw() {
-	if (frameCount % 10 === 0) {
+	if (frameCount % speed === 0) {
 		if (!hasFood) addFood();
 		background(255);
 		drawGrid();
 		drawSnake();
 		drawFood();
 		move();
-		showScore();
 		collision();
-		newStep = true;
 	}
 }
 
 function keyPressed() {
-	if (newStep) {
-		switch (keyCode) {
-			case LEFT_ARROW:
-				if (direction !== "right") {
-					direction = "left";
-					newStep = false;
-				}
-				break;
-			case RIGHT_ARROW:
-				if (direction !== "left") {
-					direction = "right";
-					newStep = false;
-				}
-				break;
-			case DOWN_ARROW:
-				if (direction !== "up") {
-					direction = "down";
-					newStep = false;
-				}
-				break;
-			case UP_ARROW:
-				if (direction !== "down") {
-					direction = "up";
-					newStep = false;
-				}
-				break;
-		}
-	}
-	if (keyCode === 32) {
-		pause();
-	}
-	if (keyCode === 82) {
-		start();
+	switch (keyCode) {
+		case LEFT_ARROW:
+			if (direction !== "right") {
+				direction = "left";
+				newStep = false;
+			}
+			break;
+
+		case RIGHT_ARROW:
+			if (direction !== "left") {
+				direction = "right";
+				newStep = false;
+			}
+			break;
+
+		case DOWN_ARROW:
+			if (direction !== "up") {
+				direction = "down";
+				newStep = false;
+			}
+			break;
+
+		case UP_ARROW:
+			if (direction !== "down") {
+				direction = "up";
+				newStep = false;
+			}
+			break;
+
+		case 32:
+			pause();
+			break;
+
+		case 82:
+			start();
+			break;
 	}
 }

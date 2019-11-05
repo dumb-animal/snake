@@ -5,12 +5,13 @@
     box-sizing: border-box
     list-style: none
     text-decoration: none
+    user-select: none
     color: white
     font-size: 20px
-    font-family: sans-serif
+    font-family: 'Montserrat', sans-serif
 
 html
-    background: #01002E
+    background: #222
     width: 100%
     height: 100%
     display: flex
@@ -19,6 +20,7 @@ html
 
 body
     position: relative
+    text-align: center
 
     #top-bar
         display: flex
@@ -29,27 +31,65 @@ body
         .scores
             display: flex
 
-    .screen
+    #start-screen
         position: absolute
-        width: 250px
-        height: 75px
-        background: #000
+        background: #222
+        transform: translate(50%,50%)
+        width: 400px
         bottom: 50%
         right: 50%
-        transform: translate(50%,50%)
-        display: flex
-        justify-content: center
-        align-items: center
-        z-index: 1
+
+        .title
+            font-size: 25px
+            margin: 20px
+
+        .difficulty-selection
+            display: flex
+            margin: 20px 0
+
+            .selected
+                border: 1px solid #ff5252
+                color: #ff5252
+
+            button
+                border-radius: 5px
+                width: 60%
+                background: #222
+                border: 1px solid #fff
+                margin: 0 20px
+                padding: 5px
+
+        .description
+            li
+                font-weight: 300
+                list-style: inside
+                list-style-type: space-counter
+                font-size: 16px
+
+        .footer
+            margin: 20px
+
+            span
+                color: #ff5252
 
     #death-screen
-        flex-direction: column
+        position: absolute
+        background: #222
+        transform: translate(50%,50%)
+        width: 400px
         height: 100px
-        div:nth-child(1)
-            text-align: center
-        // div:nth-child(2)
-        //     font-size: 18px
-        //     margin-bottom: 15px
+        bottom: 50%
+        right: 50%
+
+    #pause-screen
+        position: absolute
+        background: #222
+        transform: translate(50%,50%)
+        width: 400px
+        height: 100px
+        bottom: 50%
+        right: 50%
+        font-size: 30px
 
     .hide
         display: none

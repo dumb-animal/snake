@@ -5,10 +5,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<link rel="stylesheet" href="./styles/style.css" />
+		<link
+			href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,700&display=swap"
+			rel="stylesheet"
+		/>
 		<title>Snake</title>
 	</head>
 	<body>
-		<div id="top-bar">
+		<!-- <div id="top-bar">
 			<div>
 				<div class="scores">
 					<div>SCORE:</div>
@@ -23,10 +27,20 @@
 				<div>PAUSE - spacebar</div>
 				<div>R - restart</div>
 			</div>
-		</div>
+		</div> -->
 
-		<div id="start-screen" class="screen hide">
-			<div>press SPACE to start</div>
+		<div id="start-screen" class="hide">
+			<div class="title">Difficulty:</div>
+			<div class="difficulty-selection">
+				<button onclick="setDifficulty(true)">
+					Easy
+				</button>
+				<button onclick="setDifficulty(false)">
+					Hard
+				</button>
+			</div>
+			<ul class="description"></ul>
+			<div class="footer">press <span>SPACE</span> to start</div>
 		</div>
 
 		<div id="death-screen" class="screen hide">
@@ -39,7 +53,7 @@
 		</div>
 
 		<div id="pause-screen" class="screen hide">
-			<div>PAUSE</div>
+			<div>pause</div>
 		</div>
 
 		<script src="./scripts/p5.min.js"></script>

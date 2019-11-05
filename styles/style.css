@@ -6,13 +6,17 @@
           box-sizing: border-box;
   list-style: none;
   text-decoration: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   color: white;
   font-size: 20px;
-  font-family: sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 html {
-  background: #01002E;
+  background: #222;
   width: 100%;
   height: 100%;
   display: -webkit-box;
@@ -28,6 +32,7 @@ html {
 
 body {
   position: relative;
+  text-align: center;
 }
 
 body #top-bar {
@@ -48,37 +53,78 @@ body #top-bar .scores {
   display: flex;
 }
 
-body .screen {
+body #start-screen {
   position: absolute;
-  width: 250px;
-  height: 75px;
-  background: #000;
-  bottom: 50%;
-  right: 50%;
+  background: #222;
   -webkit-transform: translate(50%, 50%);
           transform: translate(50%, 50%);
+  width: 400px;
+  bottom: 50%;
+  right: 50%;
+}
+
+body #start-screen .title {
+  font-size: 25px;
+  margin: 20px;
+}
+
+body #start-screen .difficulty-selection {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  z-index: 1;
+  margin: 20px 0;
+}
+
+body #start-screen .difficulty-selection .selected {
+  border: 1px solid #ff5252;
+  color: #ff5252;
+}
+
+body #start-screen .difficulty-selection button {
+  border-radius: 5px;
+  width: 60%;
+  background: #222;
+  border: 1px solid #fff;
+  margin: 0 20px;
+  padding: 5px;
+}
+
+body #start-screen .description li {
+  font-weight: 300;
+  list-style: inside;
+  list-style-type: space-counter;
+  font-size: 16px;
+}
+
+body #start-screen .footer {
+  margin: 20px;
+}
+
+body #start-screen .footer span {
+  color: #ff5252;
 }
 
 body #death-screen {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  position: absolute;
+  background: #222;
+  -webkit-transform: translate(50%, 50%);
+          transform: translate(50%, 50%);
+  width: 400px;
   height: 100px;
+  bottom: 50%;
+  right: 50%;
 }
 
-body #death-screen div:nth-child(1) {
-  text-align: center;
+body #pause-screen {
+  position: absolute;
+  background: #222;
+  -webkit-transform: translate(50%, 50%);
+          transform: translate(50%, 50%);
+  width: 400px;
+  height: 100px;
+  bottom: 50%;
+  right: 50%;
+  font-size: 30px;
 }
 
 body .hide {
