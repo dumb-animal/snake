@@ -1,4 +1,4 @@
-const CELL_SIZE = 32;
+const CELL_SIZE = window.screen.availHeight > 900 ? 32 : 25;
 const BOARD_SIZE = 20;
 const SIZE = CELL_SIZE * BOARD_SIZE;
 const VECTORS = { left: [-1, 0], right: [1, 0], up: [0, -1], down: [0, 1] };

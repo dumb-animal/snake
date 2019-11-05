@@ -69,6 +69,7 @@ body #top-bar .control {
 }
 
 body #start-screen {
+  border: 1px solid #fff;
   position: absolute;
   background: #222;
   -webkit-transform: translate(50%, 50%);
@@ -121,6 +122,7 @@ body #start-screen .footer span {
 }
 
 body #death-screen {
+  border: 1px solid #fff;
   position: absolute;
   background: #222;
   -webkit-transform: translate(50%, 50%);
