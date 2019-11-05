@@ -12,22 +12,22 @@
 		<title>Snake</title>
 	</head>
 	<body>
-		<!-- <div id="top-bar">
-			<div>
-				<div class="scores">
+		<div id="top-bar">
+			<div class="scores">
+				<div>
 					<div>SCORE:</div>
-					<div id="score">0</div>
+					<div id="score"></div>
 				</div>
-				<div class="scores">
+				<div>
 					<div>HIGH SCORE:</div>
-					<div id="high-score">0</div>
+					<div id="high-score"></div>
 				</div>
 			</div>
-			<div id="info">
+			<div class="control">
+				<div>RESTART - R</div>
 				<div>PAUSE - spacebar</div>
-				<div>R - restart</div>
 			</div>
-		</div> -->
+		</div>
 
 		<div id="start-screen" class="hide">
 			<div class="title">Difficulty:</div>
@@ -43,17 +43,16 @@
 			<div class="footer">press <span>SPACE</span> to start</div>
 		</div>
 
-		<div id="death-screen" class="screen hide">
-			<div>
-				<div>CONGRATULATION!</div>
-				<div>you set a new high score!</div>
-			</div>
-			<div>YOU DEAD!</div>
-			<div>press R to try again</div>
+		<div id="death-screen" class="hide">
+			<div class="message">YOU DEAD!</div>
+			<div class="new-high-score hide">you set a new high score!</div>
+			<div class="footer">press <span>R</span> to try again</div>
 		</div>
 
-		<div id="pause-screen" class="screen hide">
-			<div>pause</div>
+		<div id="pause-screen" class="hide">
+			<div class="wrapper">
+				<span>pause</span>
+			</div>
 		</div>
 
 		<script src="./scripts/p5.min.js"></script>

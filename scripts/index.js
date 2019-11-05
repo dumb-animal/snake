@@ -9,15 +9,9 @@ const HIGH_SCORE_ELEMENT = document.getElementById("high-score");
 const START_SCREEN_ELEMENT = document.getElementById("start-screen");
 const PAUSE_SCREEN_ELEMENT = document.getElementById("pause-screen");
 const DEATH_SCREEN_ELEMENT = document.getElementById("death-screen");
-const MESSAGE_WITH_HS = `
-	<div>YOU DEAD!</div>
-	<div>you set a new high score!</div>
-	<div>press R to try again</div>`;
-const MESSAGE_WITHOUT_HS = `
-	<div>YOU DEAD!</div>
-	<div>press R to try again</div>`;
 
 let highScore = 0;
+let fps = 7;
 
 let isEasy;
 let isPause;
@@ -71,7 +65,7 @@ function drawSnake() {
 }
 
 function drawFood() {
-	fill(100, 20, 20);
+	fill("#ff5252");
 	rect(food[0] * CELL_SIZE, food[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
@@ -84,13 +78,15 @@ function addFood() {
 function collision() {
 	let head = snake[0];
 	// collision with edges
-	if (
-		head[0] < 0 ||
-		head[1] < 0 ||
-		head[0] >= BOARD_SIZE ||
-		head[1] >= BOARD_SIZE
-	) {
-		death();
+	if (!isEasy) {
+		if (
+			head[0] < 0 ||
+			head[1] < 0 ||
+			head[0] >= BOARD_SIZE ||
+			head[1] >= BOARD_SIZE
+		) {
+			death();
+		}
 	}
 
 	// colision with myself
@@ -110,14 +106,13 @@ function collision() {
 
 function death() {
 	isDead = true;
+	let hsMsg = DEATH_SCREEN_ELEMENT.getElementsByClassName("new-high-score");
+
+	if (isNewHighScore) hsMsg[0].classList.remove("hide");
+	else hsMsg[0].classList.add("hide");
+
+	DEATH_SCREEN_ELEMENT.classList.remove("hide");
 	noLoop();
-	if (isNewHighScore) {
-		DEATH_SCREEN_ELEMENT.innerHTML = MESSAGE_WITH_HS;
-		DEATH_SCREEN_ELEMENT.classList.remove("hide");
-	} else {
-		DEATH_SCREEN_ELEMENT.innerHTML = MESSAGE_WITHOUT_HS;
-		DEATH_SCREEN_ELEMENT.classList.remove("hide");
-	}
 }
 
 function pause() {
@@ -141,9 +136,17 @@ function eat() {
 	food = [];
 	hasFood = false;
 	score++;
+
 	if (score > highScore) {
 		highScore = score;
 		isNewHighScore = true;
+	}
+
+	if (!isEasy) {
+		if (score % 10 == 0) {
+			fps++;
+			frameRate(fps);
+		}
 	}
 }
 
@@ -154,6 +157,13 @@ function move() {
 	snake.pop();
 	head[0] = snake[0][0] + vector[0];
 	head[1] = snake[0][1] + vector[1];
+
+	if (isEasy) {
+		if (head[0] >= BOARD_SIZE) head[0] -= BOARD_SIZE;
+		if (head[1] >= BOARD_SIZE) head[1] -= BOARD_SIZE;
+		if (head[0] < 0) head[0] += BOARD_SIZE;
+		if (head[1] < 0) head[1] += BOARD_SIZE;
+	}
 
 	snake = [head, ...snake];
 }
@@ -167,38 +177,39 @@ function start() {
 	PAUSE_SCREEN_ELEMENT.classList.add("hide");
 	DEATH_SCREEN_ELEMENT.classList.add("hide");
 	START_SCREEN_ELEMENT.classList.remove("hide");
+	fps = 7;
 	score = 0;
 	speed = 20;
 	direction = "down";
 	isDead = false;
 	hasFood = false;
 	isPause = true;
-	isEasy = false;
+	isEasy = true;
 	isNewHighScore = false;
 	snake = [[9, 10], [9, 9], [9, 8]];
 	food = [];
+	noLoop();
 	background(255);
 	drawGrid();
-	// showScore();
-	noLoop();
+	showScore();
 	setDifficulty(isEasy);
 }
 
 function setup() {
 	createCanvas(SIZE, SIZE);
+	frameRate(fps);
 	start();
 }
 
 function draw() {
-	if (frameCount % speed === 0) {
-		if (!hasFood) addFood();
-		background(255);
-		drawGrid();
-		drawSnake();
-		drawFood();
-		move();
-		collision();
-	}
+	if (!hasFood) addFood();
+	background(255);
+	drawGrid();
+	drawSnake();
+	drawFood();
+	showScore();
+	move();
+	collision();
 }
 
 function keyPressed() {
